@@ -1,11 +1,838 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diacoach</title>
+  <meta charset="UTF-8" />
+  <title>DiaCoach — آگاهی‌بخشی دیابت</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #e7ecf5;
+      --shadow-light: #ffffff;
+      --shadow-dark: #b8c4d8;
+      --accent: #3b82f6;
+      --accent-pink: #ec4899;
+      --accent-orange: #fb923c;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --radius-lg: 28px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 10% 0, #fdf2f8 0, var(--bg) 40%, var(--bg) 100%);
+      color: var(--text-main);
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    /* نئومورفیسم نرم */
+
+    .neo-surface {
+      background: var(--bg);
+      box-shadow:
+        10px 10px 20px rgba(184, 196, 216, 0.8),
+        -10px -10px 20px rgba(255, 255, 255, 0.9);
+    }
+
+    .neo-inset {
+      background: var(--bg);
+      box-shadow:
+        inset 6px 6px 10px rgba(184, 196, 216, 0.9),
+        inset -6px -6px 10px rgba(255, 255, 255, 0.95);
+    }
+
+    .pill {
+      border-radius: 999px;
+    }
+
+    /* هدر */
+
+    .header {
+      border-radius: 999px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: var(--bg);
+      box-shadow:
+        5px 5px 10px rgba(184, 196, 216, 0.8),
+        -5px -5px 10px rgba(255, 255, 255, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--accent-pink);
+    }
+
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+    }
+
+    .brand-name {
+      font-weight: 600;
+    }
+
+    .brand-tagline {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .header-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+    }
+
+    .header-link {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .header-link:hover {
+      text-decoration: underline;
+    }
+
+    .header-btn {
+      padding: 6px 14px;
+      border: none;
+      background: var(--bg);
+      border-radius: 999px;
+      box-shadow:
+        6px 6px 12px rgba(184, 196, 216, 0.8),
+        -6px -6px 12px rgba(255, 255, 255, 0.95);
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    /* هرو جدید - ساده و متمرکز */
+
+    .hero {
+      border-radius: 32px;
+      padding: 36px 28px 32px;
+      margin-bottom: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.15), transparent 65%);
+      top: -100px;
+      left: -80px;
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251, 146, 60, 0.18), transparent 65%);
+      bottom: -90px;
+      right: -50px;
+      pointer-events: none;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-10px) scale(1.02); }
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-pink);
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      margin: 0 0 24px;
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 12px 26px;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--bg);
+      color: var(--text-main);
+      box-shadow:
+        8px 8px 16px rgba(184, 196, 216, 0.8),
+        -8px -8px 16px rgba(255, 255, 255, 0.9);
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-orange));
+      box-shadow:
+        8px 8px 16px rgba(184, 148, 167, 0.6),
+        -8px -8px 16px rgba(255, 255, 255, 0.95);
+    }
+
+    .btn-ghost {
+      font-size: 12px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        10px 10px 24px rgba(184, 196, 216, 0.9),
+        -10px -10px 24px rgba(255, 255, 255, 0.96);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      justify-content: center;
+    }
+
+    .hero-chip {
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: var(--bg);
+      box-shadow:
+        6px 6px 12px rgba(184, 196, 216, 0.8),
+        -6px -6px 12px rgba(255, 255, 255, 0.95);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #10b981;
+    }
+
+    /* کارت دیتا دیابت */
+
+    .hero-card {
+      border-radius: 26px;
+      padding: 22px 20px;
+      position: relative;
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .hero-card-title {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .hero-glucose {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .hero-glucose span {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-right: 4px;
+    }
+
+    .hero-range-pill {
+      margin-top: 6px;
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .range-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .mini-metric {
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 12px;
+    }
+
+    .mini-label {
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .mini-value {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .mini-metric.pulse {
+      animation: pulseMetric 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseMetric {
+      0%, 100% {
+        transform: translateY(0);
+        box-shadow:
+          7px 7px 14px rgba(184, 196, 216, 0.8),
+          -7px -7px 14px rgba(255, 255, 255, 0.9);
+      }
+      50% {
+        transform: translateY(-2px);
+        box-shadow:
+          9px 9px 18px rgba(184, 196, 216, 0.9),
+          -9px -9px 18px rgba(255, 255, 255, 0.96);
+      }
+    }
+
+    /* سکشن‌های بعدی */
+
+    .section-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-card {
+      border-radius: 24px;
+      padding: 20px 20px 22px;
+      font-size: 13px;
+    }
+
+    .section-card h2 {
+      margin: 0 0 12px;
+      font-size: 17px;
+    }
+
+    .section-card p {
+      margin: 0;
+      color: var(--text-muted);
+      line-height: 1.9;
+    }
+
+    .list-soft {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .list-soft li {
+      position: relative;
+      padding-right: 16px;
+      margin-bottom: 8px;
+    }
+
+    .list-soft li::before {
+      content: "•";
+      position: absolute;
+      right: 0;
+      color: var(--accent-pink);
+      font-size: 14px;
+    }
+
+    .cta-strip {
+      border-radius: 24px;
+      padding: 18px 20px;
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .cta-strip strong {
+      font-size: 14px;
+    }
+
+    /* FAQ آکاردئون */
+
+    .faq {
+      border-radius: 24px;
+      padding: 20px 20px;
+      font-size: 12px;
+    }
+
+    .faq-title {
+      margin: 0 0 16px;
+      font-size: 15px;
+    }
+
+    .faq-item + .faq-item {
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      margin-top: 12px;
+      padding-top: 12px;
+    }
+
+    .faq-header {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: right;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .faq-question {
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .faq-icon {
+      font-size: 18px;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      padding-bottom: 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      transition: max-height 0.25s ease, padding-bottom 0.25s ease;
+    }
+
+    .faq-item.open .faq-body {
+      padding-bottom: 12px;
+    }
+
+    /* فوتر */
+
+    .footer {
+      margin-top: 20px;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ریسپانسیو */
+
+    @media (max-width: 768px) {
+      .header {
+        border-radius: 24px;
+        padding: 12px 20px;
+      }
+      .hero-inner,
+      .section-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero {
+        padding: 28px 20px;
+      }
+      .hero h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div>HELLO</div>
+  <div class="page">
+    <!-- هدر -->
+    <header class="header neo-surface">
+      <div class="header-brand">
+        <div class="brand-mark">D</div>
+        <div class="brand-copy">
+          <span class="brand-name">DiaCoach</span>
+          <span class="brand-tagline">صفحه‌ای برای کمک به خودمدیریتی دیابت</span>
+        </div>
+      </div>
+      <div class="header-cta">
+        <span>شماره تماس</span>
+        <span>0911-123-1234</span>
+      </div>
+    </header>
+
+    <!-- هرو جدید - ساده و متمرکز -->
+    <section class="hero neo-surface" id="top">
+      <div class="hero-inner">
+        <div class="eyebrow">زندگی روزمره با دیابت</div>
+        <h1>دیابت همراه توست، نه علیه تو.</h1>
+        <p class="hero-sub">
+          این صفحه قرار نیست جای پزشک یا دارو را بگیرد؛ فقط کمک می‌کند قند خونت را
+          بهتر بفهمی، الگوهای روزانه‌ات را ببینی و با انتخاب‌های کوچک، روز به روز
+          مدیریت دیابت را ساده‌تر و قابل پیش‌بینی‌تر کنی.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" type="button">از امروز شروع به ثبت الگوها کن</button>
+          <button class="btn btn-ghost" type="button">اول چند نکته مهم را بخوانم</button>
+        </div>
+
+        <div class="hero-meta">
+          <div class="hero-chip">
+            <span class="chip-dot" style="background:#10b981;"></span>
+            <span>کمک به خودمراقبتی روزانه؛ از غذا و خواب تا حرکت</span>
+          </div>
+          <div class="hero-chip">
+            <span class="chip-dot" style="background:var(--accent-pink);"></span>
+            <span>توضیحات ساده، برای گفتگو بهتر با پزشک و تیم درمان</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- کارت نمونه دیابت -->
+    <section style="margin-top: 18px;">
+      <div class="section-row">
+        <div class="section-card neo-surface" style="grid-column: 1 / -1;">
+          <h2>یک نگاه به قند خون روزهای اخیر.</h2>
+          <p style="margin-bottom: 18px;">
+            این فقط یک نمونه است، اما ایده کلی را نشان می‌دهد: به‌جای حفظ کردن عددها، روند
+            و محدوده‌ها را ببین تا بفهمی بدن‌ات بعد از غذا، خواب، استرس و فعالیت چطور رفتار می‌کند.
+          </p>
+          <div class="">
+            <div class="hero-card-header">
+              <span class="hero-card-title">پنل روزانه دیابت</span>
+              <span>نمونه روزانه یک فرد با دیابت نوع ۲</span>
+            </div>
+            <div>
+              <div class="hero-glucose">
+                <span id="glucose-value">112</span>
+                <span>mg/dL</span>
+              </div>
+              <div class="hero-range-pill neo-inset">
+                <span class="range-dot"></span>
+                <span>در محدوده هدف (۸۰–۱۴۰)</span>
+              </div>
+            </div>
+            <div class="hero-metrics">
+              <div class="mini-metric neo-surface pulse">
+                <div class="mini-label">میانگین ۷ روزه</div>
+                <div class="mini-value">115</div>
+              </div>
+              <div class="mini-metric neo-surface">
+                <div class="mini-label">Time in Range</div>
+                <div class="mini-value">۷۸٪</div>
+              </div>
+              <div class="mini-metric neo-surface">
+                <div class="mini-label">هیپو در ۷ روز</div>
+                <div class="mini-value">۱ بار</div>
+              </div>
+              <div class="mini-metric neo-surface">
+                <div class="mini-label">هایپر در ۷ روز</div>
+                <div class="mini-value">۳ بار</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- سکشن توضیح و مزایا -->
+    <section style="margin-top: 18px;">
+      <div class="section-row">
+        <article class="section-card neo-surface">
+          <h2>یک صفحه آرام، برای تصمیم‌های روزمره بهتر.</h2>
+          <p>
+            اگر دیابت داری، هر روز انتخاب‌های کوچکی داری: چی بخوری، چقدر حرکت کنی،
+            کی دارو یا انسولین بزنی. این صفحه کمک می‌کند ببینی این انتخاب‌ها روی قند خونت
+            چه اثری می‌گذارند، بدون اصطلاحات پیچیده و نمودارهای استرس‌زا.
+          </p>
+        </article>
+        <article class="section-card neo-surface">
+          <h2>این صفحه دقیقاً به چه چیزهایی کمک می‌کند؟</h2>
+          <ul class="list-soft">
+            <li>درک رابطه بین غذا، خواب، استرس و قند خونت.</li>
+            <li>آماده کردن چند نکته ساده برای جلسه بعدی با پزشکت.</li>
+            <li>کمک به این‌که هیپو و هایپر را زودتر و آگاهانه‌تر تشخیص بدهی.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- سکشن CTA آموزشی -->
+    <section id="cta">
+      <div class="section-row">
+        <article class="section-card neo-surface">
+          <h2>یک همراه آموزشی برای مسیر دیابت تو.</h2>
+          <p>
+            این قالب می‌تواند خانه‌ای باشد برای محتوای آموزشی تو: از راهنمای
+            «چطور قند خونم را یادداشت کنم» تا «چه سوال‌هایی از پزشکم بپرسم».
+            کافی است داستان و تجربه‌هایی که می‌خواهی با بیماران به اشتراک بگذاری
+            را در این ساختار ساده قرار بدهی.
+          </p>
+        </article>
+        <div class="cta-strip neo-surface">
+          <div>
+            <strong>می‌خواهی محتوای ویژه خودمراقبتی بسازی؟</strong>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
+              از همین ساختار ساده برای نوشتن راهنماهای کوتاه استفاده کن؛
+              هر بلوک می‌تواند یک موضوع باشد: تغذیه، ورزش، دارو، سلامت روان و...
+            </div>
+          </div>
+          <button class="btn btn-primary" type="button">ایجاد برنامه کوچک خودمراقبتی</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ آکاردئون آگاهی‌بخش -->
+    <section id="faq" style="margin-top: 18px;">
+      <div class="faq neo-surface">
+        <h2 class="faq-title">سوالات پرتکرار درباره زندگی روزمره با دیابت</h2>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span class="faq-question">آیا لازم است هر عدد قند خون را دقیقاً یادداشت کنم؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            لازم نیست وسواس بگیری؛ اما ثبت منظم، حتی اگر فقط چند بار در روز باشد،
+            به تو و پزشکت کمک می‌کند الگوها را ببینید. مهم‌تر از یک عدد تکی، روند
+            کلی و تغییرات نسبت به روزها و وعده‌های قبلی است.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span class="faq-question">Time in Range یعنی چه و چرا مهم است؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            Time in Range یعنی چند درصد از زمان، قند خونت در محدوده هدفی است
+            که پزشک برایت مشخص کرده. این شاخص کمک می‌کند به‌جای تمرکز روی
+            چند عدد خیلی بالا یا پایین، ببینی اکثر ساعت‌های روز قندت چطور بوده است.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span class="faq-question">اگر یک روز قند خونم خیلی بالا یا پایین شد چه کار کنم؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            اول آرامش خودت را حفظ کن. اگر علائم خطرناک داری، طبق دستور پزشکت عمل کن
+            یا فوراً به اورژانس مراجعه کن. در کنار آن، این صفحه می‌تواند کمک کند
+            محرک‌های احتمالی آن روز (غذا، استرس، خواب کم، فراموشی دارو) را یادداشت کنی
+            تا در آینده راحت‌تر از تکرار آن شرایط جلوگیری کنی.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span class="faq-question">چطور این اطلاعات را با پزشکم به اشتراک بگذارم؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            می‌توانی در یک برگه یا فایل ساده، مهم‌ترین چیزها را قبل از ویزیت بنویسی:
+            چند نمونه عدد قند خون، موارد هیپو و هایپر، تغییر در دارو یا غذایی
+            که امتحان کرده‌ای. هدف این است که ویزیت کوتاه، مفیدتر و متمرکزتر شود.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span class="faq-question">اگر حوصله ثبت قند خون و جزئیات را نداشته باشم چه؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            طبیعی است که گاهی خسته شوی. لازم نیست همه‌چیز کامل باشد. می‌توانی فقط
+            چند روز در هفته یا چند ساعت مهم روز (مثلاً قبل صبحانه و قبل خواب) را ثبت کنی.
+            همین مقدار هم می‌تواند تصویر نسبی خوبی از وضعیتت بدهد.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span class="faq-question">آیا نگاه کردن زیاد به قند خون باعث استرس بیشتر نمی‌شود؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            اگر فقط به عدد لحظه‌ای خیره شوی، بله می‌تواند استرس‌آور باشد. برای همین
+            بهتر است به روندها و محدوده‌ها نگاه کنی، نه فقط یک عدد. این صفحه دقیقاً
+            برای همین طراحی شده؛ تا تصویر کلی را ببینی، نه فقط نوسان‌های لحظه‌ای را.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span class="faq-question">آیا این صفحه می‌تواند جای مشاوره تغذیه‌ای را بگیرد؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            نه. این صفحه می‌تواند کمک کند بفهمی چه غذاهایی معمولاً قند خونت را بالا یا
+            پایین می‌برند، اما انتخاب رژیم دقیق و ایمن، مخصوصاً اگر دارو یا انسولین می‌زنی،
+            باید با کمک متخصص تغذیه یا پزشک انجام شود.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- فوتر -->
+    <footer class="footer neo-surface">
+      <span>DiaCoach — صفحه‌ای برای کمک به خودمدیریتی دیابت</span>
+    </footer>
+  </div>
+
+  <script>
+    // انیمیشن نرم روی عدد قند خون
+    const span = document.getElementById("glucose-value");
+    let current = 112;
+    setInterval(() => {
+      const delta = Math.floor(Math.random() * 7) - 3;
+      current = Math.min(Math.max(current + delta, 90), 180);
+      span.textContent = current;
+    }, 2200);
+
+    // آکوردئون FAQ (دسکتاپ و موبایل)
+    document.querySelectorAll(".faq-item").forEach((item) => {
+      const header = item.querySelector(".faq-header");
+      const body = item.querySelector(".faq-body");
+      const icon = item.querySelector(".faq-icon");
+
+      header.addEventListener("click", () => {
+        const isOpen = item.classList.contains("open");
+
+        // بستن بقیه
+        document.querySelectorAll(".faq-item.open").forEach((openItem) => {
+          if (openItem !== item) {
+            openItem.classList.remove("open");
+            const openBody = openItem.querySelector(".faq-body");
+            const openIcon = openItem.querySelector(".faq-icon");
+            openBody.style.maxHeight = "";
+            openBody.style.paddingBottom = "0";
+            openIcon.textContent = "+";
+          }
+        });
+
+        if (!isOpen) {
+          item.classList.add("open");
+          body.style.maxHeight = body.scrollHeight + "px";
+          body.style.paddingBottom = "12px";
+          icon.textContent = "−";
+        } else {
+          item.classList.remove("open");
+          body.style.maxHeight = "";
+          body.style.paddingBottom = "0";
+          icon.textContent = "+";
+        }
+      });
+    });
+  </script>
 </body>
 </html>
